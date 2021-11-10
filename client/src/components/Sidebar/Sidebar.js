@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import { Nav, Tab, Button, Modal } from 'react-bootstrap';
-import Contacts from '../Contacts';
 import Conversations from '../Conversations';
 import NewConversationModal from '../NewConversationModal';
-import NewContactsModal from '../NewContactsFolder/NewContactsFolder';
-import { CONTACTS_KEY, CONVERSATIONS_KEY } from './constants';
+import { CONVERSATIONS_KEY } from './constants';
 import { useSocket } from '../../contexts/SocketProvider';
 
 const Sidebar = ({id}) => {
@@ -37,9 +35,6 @@ const Sidebar = ({id}) => {
                 <Tab.Pane eventKey={CONVERSATIONS_KEY}>
                     <Conversations/>
                 </Tab.Pane>
-                {/* <Tab.Pane eventKey={CONTACTS_KEY}>
-                    <Contacts/>
-                </Tab.Pane> */}
             </Tab.Content>
             <div className='p-2 border-top border-end small'>
                 Your Id: <span className='text-muted'>{id}</span>
@@ -50,11 +45,7 @@ const Sidebar = ({id}) => {
         </Tab.Container>
 
         <Modal show={modalOpen} onHide={closeModal}>
-            {conversationsOpen ?
-            <NewConversationModal closeModal={closeModal}/> :
-            <NewContactsModal closeModal={closeModal}/>
-               
-        }
+            <NewConversationModal closeModal={closeModal}/> 
         </Modal>
     </div>
         
