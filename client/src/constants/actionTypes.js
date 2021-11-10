@@ -1,0 +1,8 @@
+//CONTACT ACTIONS
+export const ADD_CONTACT = 'ADD_CONTACT'
+
+//LOGIN ACTIONS
+export const CREATE_ID ='CREATE_ID'
+
+//TOTAL ACTIONS
+export const SET_TOTAL = 'SET_TOTAL'
