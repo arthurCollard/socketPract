@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import {Modal, Form, Button} from 'react-bootstrap'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
@@ -10,6 +10,7 @@ const NewConversationModal = (props) => {
     const socket = useSocket()
     const numberRef = useRef();
 
+    //TODO - wrap in useCallback function
     const addNumberToTotal =  (params) => {
         const {actions} = props
         actions.setTotal(params)
@@ -24,9 +25,7 @@ const NewConversationModal = (props) => {
     }, [socket, addNumberToTotal])
 
     const totalOrParsedTotal = (total) => {
-
         return (typeof total == Number) ? total : parseInt(total)
-        
     }
 
     const handleSubmit = async (e) => {
