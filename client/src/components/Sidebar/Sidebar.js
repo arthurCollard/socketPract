@@ -9,7 +9,7 @@ const Sidebar = ({id}) => {
     const [activeKey, setActiveKey] = useState(CONVERSATIONS_KEY)
     const [modalOpen, setModalOpen] = useState(false)
     const socket = useSocket()
-    const conversationsOpen = activeKey === CONVERSATIONS_KEY
+    // const conversationsOpen = activeKey === CONVERSATIONS_KEY
 
     const closeModal = () => {
         setModalOpen(false)

@@ -8,9 +8,6 @@ const io = require('socket.io')(httpServer, {
     }
 })
 
-let connectedUsers = []
-let readiedUsers = []
-
 io.on('connection', socket => {
     const id = socket.handshake.query.id
     if (!id) return
@@ -18,25 +15,19 @@ io.on('connection', socket => {
     //connecting
     console.log(`connecting as ...${id}`)
     socket.join(id)
-    connectedUsers.push(id)
 
+    socket.broadcast.emit('player-joined', id)
+    // connectedUsers.push(id)
+
+    
     //receiving message
     socket.on('add-number', ({text}) => {
         console.log(id, text)
         socket.broadcast.emit("add-number-response", text)
     })
 
-    socket.on('random-number', () => {
-        const endingNumber = Math.floor(Math.random() * 3000)
-        socket.broadcast.emit("random-number-generator", endingNumber)
-    })
-
-    socket.on('ready-user', () => {
-        readiedUsers.push(id)
-        if (connectedUsers === readiedUsers) 
-            socket.broadcast.emit("game-lobby")
-        else
-            socket.broadcast.emit("start-game")
+    socket.on('disconnect', () => {
+        socket.broadcast.emit('player-leave', id)
     })
 })
 

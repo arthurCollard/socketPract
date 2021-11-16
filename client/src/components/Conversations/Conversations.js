@@ -1,13 +1,23 @@
 import React from 'react';
-
-const Conversations = () => {
-return (
-    <div>
-        Guesses
-        
-    </div>
-)
-
+import { connect } from 'react-redux';
+const Conversations = (props) => {
+    const {messages} = props
+    return (
+        <ul className="list-group list-group-flush">
+            {   
+                messages.map( (message, index) => (
+                    <ul className="list-group-item" key={index}>
+                        {message}
+                    </ul>
+                ))
+            }
+        </ul>
+    )
 }
 
-export default Conversations
+const mapStateToProps = (state) => {
+    return {
+        messages: state.messages.messages
+    }
+}
+export default connect(mapStateToProps, {})(Conversations)

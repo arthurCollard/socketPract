@@ -1,27 +1,30 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import {Modal, Form, Button} from 'react-bootstrap'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
-import totalActions from '../../actions/totalActions';
 
+import messageActions from '../../actions/messageActions';
+import totalActions from '../../actions/totalActions';
 import { useSocket } from '../../contexts/SocketProvider';
+import { createTotalChangedMessage } from '../../utils/utils';
 
 const NewConversationModal = (props) => {
     const socket = useSocket()
     const numberRef = useRef();
 
     //TODO - wrap in useCallback function
-    const addNumberToTotal =  (params) => {
+    const addNumberToTotal = useCallback((params) => {
         const {actions} = props
+        
         actions.setTotal(params)
-    }
+        actions.addMessage(createTotalChangedMessage(params))
+    }, [])
 
     useEffect(() => {
         if (socket == null) return 
         
         socket.on('add-number-response', addNumberToTotal)
 
-        return () => socket.off('message')
     }, [socket, addNumberToTotal])
 
     const totalOrParsedTotal = (total) => {
@@ -30,9 +33,13 @@ const NewConversationModal = (props) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        const {total, actions} = props
-        await actions.setTotal(parseInt(total) + parseInt(numberRef.current.value))
-        socket.emit('add-number', {text: totalOrParsedTotal(total + parseInt(numberRef.current.value))})
+        const {game, actions} = props
+        console.log("actions", actions)
+
+        //set Redux State with total
+        actions.setTotal(parseInt(game.total) + parseInt(numberRef.current.value))
+        //update other clients via socket
+        socket.emit('add-number', {text: totalOrParsedTotal(game.total + parseInt(numberRef.current.value))})
     }
 
 
@@ -43,7 +50,7 @@ const NewConversationModal = (props) => {
                 <Form onSubmit={handleSubmit}>
                     <div className=" justify-content-center">
                         <span >
-                            Total: {props && props.total}
+                            Total: {props && props.game.total}
                         </span>
                     </div>
                     <Form.Group className="mt-2">
@@ -59,14 +66,14 @@ const NewConversationModal = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        total: state.total.total
+        game: state.game
     }
 }
 
-const mapDispatchToProps = (disptach) => {
+const mapDispatchToProps = (dispatch) => {
     return {
-        disptach,
-        actions: bindActionCreators(totalActions, disptach)
+        dispatch,
+        actions: bindActionCreators({...totalActions, ...messageActions}, dispatch)
     }
 }
 

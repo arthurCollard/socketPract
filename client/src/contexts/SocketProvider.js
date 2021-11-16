@@ -17,11 +17,14 @@ const SocketProvider = ({id, children}) => {
         )
         setSocket(newSocket)
 
-        return () => newSocket.close()
+        return () => {
+            // newSocket.emit('leave')
+            newSocket.close()
+        }
     }, [id])
 
     return (
-        <SocketContext.Provider value ={socket}>
+        <SocketContext.Provider value={socket}>
             {children}
         </SocketContext.Provider>
     )

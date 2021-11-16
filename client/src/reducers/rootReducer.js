@@ -1,10 +1,10 @@
 import { combineReducers } from "redux";
-import contactReducer from "./contactReducer";
 import loginReducer from "./loginReducer";
-import totalReducer from "./totalReducer";
+import gameReducer from "./gameReducer";
+import messageReducer from "./messageReducer";
 
 export default combineReducers({
-    contacts: contactReducer,
     login: loginReducer,
-    total: totalReducer
+    game: gameReducer,
+    messages: messageReducer
 })
