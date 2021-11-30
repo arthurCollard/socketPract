@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Nav, Tab, Button, Modal } from 'react-bootstrap';
-import Conversations from '../Conversations';
-import NewConversationModal from '../NewConversationModal';
 import { CONVERSATIONS_KEY } from './constants';
 import { useSocket } from '../../contexts/SocketProvider';
+import Messages from '../Messages';
+import GameInputModal from '../GameInputModal';
 
 const Sidebar = ({id}) => {
     const [activeKey, setActiveKey] = useState(CONVERSATIONS_KEY)
@@ -33,7 +33,7 @@ const Sidebar = ({id}) => {
             </Nav>
             <Tab.Content className='border-end overflow-auto flex-grow-1'>
                 <Tab.Pane eventKey={CONVERSATIONS_KEY}>
-                    <Conversations/>
+                    <Messages/>
                 </Tab.Pane>
             </Tab.Content>
             <div className='p-2 border-top border-end small'>
@@ -45,7 +45,7 @@ const Sidebar = ({id}) => {
         </Tab.Container>
 
         <Modal show={modalOpen} onHide={closeModal}>
-            <NewConversationModal closeModal={closeModal}/> 
+            <GameInputModal closeModal={closeModal}/> 
         </Modal>
     </div>
         

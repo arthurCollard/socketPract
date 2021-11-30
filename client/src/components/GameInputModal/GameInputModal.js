@@ -8,7 +8,7 @@ import totalActions from '../../actions/totalActions';
 import { useSocket } from '../../contexts/SocketProvider';
 import { createTotalChangedMessage } from '../../utils/utils';
 
-const NewConversationModal = (props) => {
+const GameInputModal = (props) => {
     const socket = useSocket()
     const numberRef = useRef();
 
@@ -77,4 +77,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(NewConversationModal) 
+export default connect(mapStateToProps, mapDispatchToProps)(GameInputModal) 

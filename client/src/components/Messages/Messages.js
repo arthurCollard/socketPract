@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-const Conversations = (props) => {
+const Messages = (props) => {
     const {messages} = props
     return (
         <ul className="list-group list-group-flush">
@@ -20,4 +20,4 @@ const mapStateToProps = (state) => {
         messages: state.messages.messages
     }
 }
-export default connect(mapStateToProps, {})(Conversations)
+export default connect(mapStateToProps, {})(Messages)
